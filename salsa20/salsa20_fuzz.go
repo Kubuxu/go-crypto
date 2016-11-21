@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"math/rand"
 
 	gs20 "golang.org/x/crypto/salsa20"
 )
@@ -16,18 +17,6 @@ var decU16 = binary.LittleEndian.Uint16
 
 var fkey = &[32]byte{}
 var fnonce = make([]byte, 8)
-
-var sampleData = dr{}
-
-type dr struct{}
-
-func (dr) Read(s []byte) (int, error) {
-	for i := 0; i < len(s); i++ {
-		s[i] = 0x55
-	}
-
-	return len(s), nil
-}
 
 func fdecode(in []byte) ([]uint16, uint64, error) {
 	if len(in)%2 != 0 {
@@ -72,7 +61,10 @@ func Fuzz(in []byte) int {
 	}
 
 	input := make([]byte, total)
-	sampleData.Read(input)
+	_, err = rand.Read(input)
+	if err != nil {
+		panic(err)
+	}
 
 	output := make([]byte, total)
 	outputStream := make([]byte, total)
