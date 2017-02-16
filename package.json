@@ -18,7 +18,7 @@
   "gxVersion": "0.9.1",
   "language": "go",
   "license": "MIT",
-  "name": "go-crypto",
-  "version": "0.1.0"
+  "name": "go-crypto-dav",
+  "version": "0.2.0"
 }
 
